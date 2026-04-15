@@ -14,7 +14,7 @@ apt install -y && apt update -y && apt upgrade -y && wget -q https://raw.githubu
 
 ![logo](https://github.com/AsepSabath/halu/blob/main/wilo.png)
 
-SCRIPT HAPROXY GRATIS TIDAK PERLU IJIN IP SAYANK.. DEBIAN 10,11 / UBUNTU 20.18, 20.04 LANGSUNG INSTALL AJA!!!
+SCRIPT HAPROXY GRATIS TIDAK PERLU IJIN IP SAYANK.. DEBIAN 11/12 / UBUNTU 20.04, 22.04, 24.04, 25.10 LANGSUNG INSTALL AJA!!!
 REKOMONDASI MAKEK DOMAIN SENDIRI.
 
 Multiport
@@ -30,7 +30,7 @@ https://wa.me/p/8285361161529756/6281931615811
 Versi Enteng No Udp,slowdns,noobzvpn.no limit V2
 
 ````
-apt install -y && apt update -y && apt upgrade -y && wget -q https://raw.githubusercontent.com/jaenelabidin/heheboy/main.sh && chmod +x main.sh && ./main.sh
+apt install -y && apt update -y && apt upgrade -y && wget -q https://raw.githubusercontent.com/AsepSabath/halu/main/main.sh && chmod +x main.sh && ./main.sh
 ````
 
 "# heheboy" 

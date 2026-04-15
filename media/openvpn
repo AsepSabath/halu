@@ -9,7 +9,7 @@ MYIP2="s/xxxxxxxxx/$domain/g";
 function ovpn_install() {
     rm -rf /etc/openvpn
     mkdir -p /etc/openvpn
-    wget -O /etc/openvpn/vpn.zip "https://raw.githubusercontent.com/Arya-Blitar22/st-pusat/main/media/vpn.zip" >/dev/null 2>&1 
+    wget -O /etc/openvpn/vpn.zip "https://raw.githubusercontent.com/AsepSabath/halu/main/media/vpn.zip" >/dev/null 2>&1 
     unzip -d /etc/openvpn/ /etc/openvpn/vpn.zip
     rm -f /etc/openvpn/vpn.zip
     chown -R root:root /etc/openvpn/server/easy-rsa/
@@ -17,11 +17,14 @@ function ovpn_install() {
 function config_easy() {
     cd
     mkdir -p /usr/lib/openvpn/
-    cp /usr/lib/x86_64-linux-gnu/openvpn/plugins/openvpn-plugin-auth-pam.so /usr/lib/openvpn/openvpn-plugin-auth-pam.so
-    sed -i 's/#AUTOSTART="all"/AUTOSTART="all"/g' /etc/default/openvpn
-    systemctl enable --now openvpn-server@server-tcp
-    systemctl enable --now openvpn-server@server-udp
-    /etc/init.d/openvpn restart
+    OPENVPN_PAM_PLUGIN=$(find /usr/lib -path '*/openvpn/plugins/openvpn-plugin-auth-pam.so' | head -n1)
+    if [ -n "$OPENVPN_PAM_PLUGIN" ] && [ -f "$OPENVPN_PAM_PLUGIN" ]; then
+        cp "$OPENVPN_PAM_PLUGIN" /usr/lib/openvpn/openvpn-plugin-auth-pam.so
+    fi
+    sed -i 's/#AUTOSTART="all"/AUTOSTART="all"/g' /etc/default/openvpn || true
+    systemctl enable --now openvpn-server@server-tcp || true
+    systemctl enable --now openvpn-server@server-udp || true
+    systemctl restart openvpn-server@server-tcp openvpn-server@server-udp || true
 }
 
 function make_follow() {
@@ -142,9 +145,11 @@ function install_ovpn() {
     make_follow
     make_follow
     cert_ovpn
-    systemctl enable openvpn
-    systemctl start openvpn
-    /etc/init.d/openvpn restart
+    systemctl enable openvpn-server@server-tcp || true
+    systemctl enable openvpn-server@server-udp || true
+    systemctl start openvpn-server@server-tcp || true
+    systemctl start openvpn-server@server-udp || true
+    systemctl restart openvpn-server@server-tcp openvpn-server@server-udp || true
     
 }
 install_ovpn
